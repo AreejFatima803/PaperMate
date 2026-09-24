@@ -1,0 +1,26 @@
+{
+  "class": "9th",
+  "subject": "Mathematics",
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "chapterName": "",
+      "firstHalf": {
+        "content": []
+      },
+      "secondHalf": {
+        "content": []
+      }
+    },
+    {
+      "chapterNumber": 2,
+      "chapterName": "",
+      "firstHalf": {
+        "content": []
+      },
+      "secondHalf": {
+        "content": []
+      }
+    }
+  ]
+}

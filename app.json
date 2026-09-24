@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "PaperMate Portal",
+    "slug": "papermate-portal",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./appLogo.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./appLogo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./appLogo.png",
+        "backgroundColor": "#ffffff"
+      }
+    },
+    "web": {
+      "favicon": "./appLogo.png"
+    }
+  }
+}

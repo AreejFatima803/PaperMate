@@ -1,0 +1,26 @@
+{
+  "class": "10th",
+  "subject": "English",
+  "chapters": [
+    {
+      "chapterNumber": 1,
+      "chapterName": "",
+      "firstHalf": {
+        "content": []
+      },
+      "secondHalf": {
+        "content": []
+      }
+    },
+    {
+      "chapterNumber": 2,
+      "chapterName": "",
+      "firstHalf": {
+        "content": []
+      },
+      "secondHalf": {
+        "content": []
+      }
+    }
+  ]
+}
