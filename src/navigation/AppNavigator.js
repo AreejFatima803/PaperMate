@@ -121,7 +121,7 @@ export const AppNavigator = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    minHeight: '100vh',
+    minHeight: '100%',
     backgroundColor: theme.colors.background
   },
   body: {
