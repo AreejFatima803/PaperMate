@@ -3,6 +3,7 @@
     "name": "PaperMate",
     "slug": "papermate",
     "version": "1.0.0",
+    "sdkVersion": "50.0.0",
     "orientation": "portrait",
     "icon": "./appLogo.png",
     "userInterfaceStyle": "light",
@@ -23,6 +24,11 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.papermate.app"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5d65b945-4b7f-436d-a35c-8fb2204bbdf1"
+      }
     }
   }
 }
