@@ -19,7 +19,7 @@ export const LoginScreen = ({ initialEmail = '', initialPassword = '', onLoginSu
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [infoMsg, setInfoMsg] = useState(
-    initialEmail ? 'اکاؤنٹ بن گیا ہے! اب لاگ ان کریں (Account created! Please login)' : ''
+    initialEmail ? 'Account created successfully! Please enter password to log in.' : ''
   );
 
   useEffect(() => {
@@ -30,11 +30,11 @@ export const LoginScreen = ({ initialEmail = '', initialPassword = '', onLoginSu
   const handleLogin = async () => {
     setErrorMsg('');
     if (!email.trim()) {
-      setErrorMsg('براہ کرم ای میل درج کریں (Please enter email)');
+      setErrorMsg('Please enter your email address');
       return;
     }
     if (!password) {
-      setErrorMsg('براہ کرم پاس ورڈ درج کریں (Please enter password)');
+      setErrorMsg('Please enter your password');
       return;
     }
 
@@ -61,7 +61,7 @@ export const LoginScreen = ({ initialEmail = '', initialPassword = '', onLoginSu
           </View>
           <Text style={styles.appName}>PaperMate</Text>
           <Text style={styles.appTagline}>Board Exam Paper Generator (2026)</Text>
-          <Text style={styles.pageTitle}>لاگ ان کریں (Sign In)</Text>
+          <Text style={styles.pageTitle}>Welcome Back (Sign In)</Text>
         </View>
 
         {infoMsg ? (
@@ -77,7 +77,7 @@ export const LoginScreen = ({ initialEmail = '', initialPassword = '', onLoginSu
         ) : null}
 
         <View style={styles.formCard}>
-          <Text style={styles.label}>ای میل (Email Address)</Text>
+          <Text style={styles.label}>Email Address</Text>
           <TextInput
             style={styles.input}
             placeholder="example@gmail.com"
@@ -88,10 +88,10 @@ export const LoginScreen = ({ initialEmail = '', initialPassword = '', onLoginSu
             onChangeText={setEmail}
           />
 
-          <Text style={styles.label}>پاس ورڈ (Password)</Text>
+          <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="اپنا پاس ورڈ درج کریں"
+            placeholder="Enter your password"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
             value={password}
@@ -99,16 +99,16 @@ export const LoginScreen = ({ initialEmail = '', initialPassword = '', onLoginSu
           />
 
           <CustomButton
-            title="لاگ ان کریں (Login to PaperMate)"
+            title="Log In to PaperMate"
             onPress={handleLogin}
             loading={loading}
             style={styles.submitBtn}
           />
 
           <View style={styles.signupRedirectRow}>
-            <Text style={styles.redirectText}>نیا اکاؤنٹ بنانا ہے؟ </Text>
+            <Text style={styles.redirectText}>Don't have an account? </Text>
             <TouchableOpacity onPress={onNavigateToSignUp}>
-              <Text style={styles.signupLink}>سائن اپ کریں (Sign Up)</Text>
+              <Text style={styles.signupLink}>Sign Up Now</Text>
             </TouchableOpacity>
           </View>
         </View>

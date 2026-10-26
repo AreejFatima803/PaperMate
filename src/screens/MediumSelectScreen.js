@@ -8,8 +8,8 @@ export const MediumSelectScreen = ({ selectedBoard, selectedClass, onSelectMediu
   return (
     <View style={styles.container}>
       <Header
-        title="میڈیم منتخب کریں"
-        subtitle="Select Medium of Instruction"
+        title="Select Medium"
+        subtitle="Medium of Instruction"
         onBack={onBack}
       />
 
@@ -20,37 +20,51 @@ export const MediumSelectScreen = ({ selectedBoard, selectedClass, onSelectMediu
           </Text>
         </View>
 
-        <Text style={styles.heading}>پیپر کا ذریعہ تعلیم (Medium)</Text>
+        <Text style={styles.heading}>Choose Medium</Text>
         <Text style={styles.subheading}>
-          آپ انگریزی یا اردو میں سے کس میڈیم میں سوالیہ پرچہ بنانا چاہتے ہیں؟
+          Select the medium of examination for the question paper:
         </Text>
 
         <View style={styles.mediumContainer}>
-          {MEDIUMS.map((med) => (
-            <TouchableOpacity
-              key={med.id}
-              style={styles.mediumCard}
-              activeOpacity={0.8}
-              onPress={() => onSelectMedium(med)}
-            >
-              <View style={styles.iconCircle}>
-                <Text style={styles.iconText}>{med.id === 'urdu' ? 'اردو' : 'EN'}</Text>
-              </View>
-              <View style={styles.info}>
-                <Text style={styles.mediumName}>{med.name}</Text>
-                <Text style={styles.mediumDesc}>{med.desc}</Text>
-              </View>
-              <View style={styles.selectBtn}>
-                <Text style={styles.selectBtnText}>منتخب کریں →</Text>
-              </View>
-            </TouchableOpacity>
-          ))}
+          <TouchableOpacity
+            style={styles.mediumCard}
+            activeOpacity={0.8}
+            onPress={() => onSelectMedium({ id: 'english', name: 'English Medium', tag: 'EM', desc: 'Questions in English language' })}
+          >
+            <View style={styles.iconCircle}>
+              <Text style={styles.iconText}>EN</Text>
+            </View>
+            <View style={styles.info}>
+              <Text style={styles.mediumName}>English Medium</Text>
+              <Text style={styles.mediumDesc}>Standard English exam paper formatting</Text>
+            </View>
+            <View style={styles.selectBtn}>
+              <Text style={styles.selectBtnText}>Select English Medium →</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.mediumCard}
+            activeOpacity={0.8}
+            onPress={() => onSelectMedium({ id: 'bilingual', name: 'Standard Board Medium', tag: 'BM', desc: 'Board standard English format' })}
+          >
+            <View style={styles.iconCircle}>
+              <Text style={styles.iconText}>BM</Text>
+            </View>
+            <View style={styles.info}>
+              <Text style={styles.mediumName}>Standard Board Medium</Text>
+              <Text style={styles.mediumDesc}>National curriculum standard format</Text>
+            </View>
+            <View style={styles.selectBtn}>
+              <Text style={styles.selectBtnText}>Select Standard Medium →</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
         <View style={styles.tipBox}>
-          <Text style={styles.tipTitle}>💡 معلوماتی نوٹ (2026 Board Policy):</Text>
+          <Text style={styles.tipTitle}>💡 Board Curriculum Notice (2026):</Text>
           <Text style={styles.tipDesc}>
-            سائنس مضامین (فزکس، کیمسٹری، بائیو، کمپیوٹر) دونوں میڈیمز میں بورڈ کے جدید پیٹرن کے مطابق دستیاب ہیں۔
+            All Science, Computer, Mathematics, and Humanities papers follow the official educational board guidelines.
           </Text>
         </View>
       </View>

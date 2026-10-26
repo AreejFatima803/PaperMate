@@ -32,10 +32,10 @@ export const HistoryScreen = ({ onSelectSavedPaper, onBack, onNewPaper }) => {
   }, []);
 
   const handleDelete = (id) => {
-    Alert.alert('پیپر ڈیلیٹ کریں (Delete)', 'کیا آپ واقعی اس پیپر کو ہسٹری سے حذف کرنا چاہتے ہیں؟', [
-      { text: 'منسوخ (Cancel)', style: 'cancel' },
+    Alert.alert('Delete Paper', 'Are you sure you want to remove this paper from your saved history?', [
+      { text: 'Cancel', style: 'cancel' },
       {
-        text: 'حذف کریں (Delete)',
+        text: 'Delete',
         style: 'destructive',
         onPress: async () => {
           await PaperHistoryService.deletePaper(id);
@@ -48,10 +48,10 @@ export const HistoryScreen = ({ onSelectSavedPaper, onBack, onNewPaper }) => {
   return (
     <View style={styles.container}>
       <Header
-        title="محفوظ شدہ پرچہ جات"
-        subtitle="Saved Papers History"
+        title="Saved Examination Papers"
+        subtitle="Paper History & Archives"
         onBack={onBack}
-        rightLabel="+ نیا پیپر"
+        rightLabel="+ New Paper"
         rightAction={onNewPaper}
       />
 
@@ -61,12 +61,12 @@ export const HistoryScreen = ({ onSelectSavedPaper, onBack, onNewPaper }) => {
             <View style={styles.emptyIconBox}>
               <Text style={styles.emptyIcon}>📁</Text>
             </View>
-            <Text style={styles.emptyTitle}>کوئی پرچہ محفوظ نہیں ہے</Text>
+            <Text style={styles.emptyTitle}>No Papers Saved Yet</Text>
             <Text style={styles.emptyDesc}>
-              جب آپ کوئی نیا پیپر تیار کر کے محفوظ کریں گے، تو وہ یہاں ظاہر ہو جائے گا۔
+              When you generate and save an examination paper, it will appear here for printing and editing.
             </Text>
             <TouchableOpacity style={styles.createBtn} onPress={onNewPaper}>
-              <Text style={styles.createBtnText}>+ نیا پیپر بنائیں (Create Paper)</Text>
+              <Text style={styles.createBtnText}>+ Generate New Paper</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -90,9 +90,9 @@ export const HistoryScreen = ({ onSelectSavedPaper, onBack, onNewPaper }) => {
 
                   <Text style={styles.schoolText}>{item.institutionName}</Text>
                   <Text style={styles.metaText}>
-                    🏛️ {item.boardName} • 🎓 {item.className} • 🌐 {item.medium}
+                    🏛️ {item.boardName} • 🎓 {item.className}
                   </Text>
-                  <Text style={styles.dateText}>📅 تاریخ: {item.createdAt || 'Recent'}</Text>
+                  <Text style={styles.dateText}>📅 Created: {item.createdAt || 'Recent'}</Text>
                 </TouchableOpacity>
 
                 <View style={styles.cardActionsRow}>
@@ -100,7 +100,7 @@ export const HistoryScreen = ({ onSelectSavedPaper, onBack, onNewPaper }) => {
                     style={styles.actionBtn}
                     onPress={() => onSelectSavedPaper(item)}
                   >
-                    <Text style={styles.actionViewText}>👁️ دیکھیں (View / Print)</Text>
+                    <Text style={styles.actionViewText}>👁️ View / Print Paper</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.actionBtnDelete}

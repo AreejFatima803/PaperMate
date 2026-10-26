@@ -25,37 +25,27 @@ export const SignUpScreen = ({ onNavigateToLogin }) => {
   const handleSignUp = async () => {
     setErrorMsg('');
     if (!name.trim()) {
-      setErrorMsg('براہ کرم اپنا نام درج کریں (Please enter your name)');
+      setErrorMsg('Please enter your full name');
       return;
     }
     if (!email.trim() || !email.includes('@')) {
-      setErrorMsg('براہ کرم درست ای میل درج کریں (Please enter a valid email)');
+      setErrorMsg('Please enter a valid email address');
       return;
     }
     if (password.length < 6) {
-      setErrorMsg('پاس ورڈ کم از کم 6 ہندسوں کا ہونا چاہیے (Password must be 6+ chars)');
+      setErrorMsg('Password must be at least 6 characters');
       return;
     }
     if (password !== confirmPassword) {
-      setErrorMsg('پاس ورڈ میچ نہیں کر رہے (Passwords do not match)');
+      setErrorMsg('Passwords do not match');
       return;
     }
 
     setLoading(true);
     try {
-      await AuthService.signUp(name.trim(), email.trim(), password);
-      // As requested: "user phly ay ga wo signin kry ga phr wo khud ba khud login page pr a jay ga"
-      Alert.alert(
-        'اکاؤنٹ بن گیا (Success)',
-        'آپ کا اکاؤنٹ کامیابی سے بن گیا ہے۔ اب براہ کرم لاگ ان کریں۔',
-        [
-          {
-            text: 'Login Now',
-            onPress: () => onNavigateToLogin({ email: email.trim(), prefilledPassword: password }),
-          },
-        ]
-      );
-      onNavigateToLogin({ email: email.trim(), prefilledPassword: password });
+      const newUser = await AuthService.signUp(name.trim(), email.trim(), password);
+      // Seamlessly log in and proceed
+      onNavigateToLogin({ user: newUser, email: email.trim(), prefilledPassword: password });
     } catch (err) {
       setErrorMsg(err.message || 'Registration failed');
     } finally {
@@ -75,7 +65,7 @@ export const SignUpScreen = ({ onNavigateToLogin }) => {
           </View>
           <Text style={styles.appName}>PaperMate</Text>
           <Text style={styles.appTagline}>Board Exam Paper Generator (2026)</Text>
-          <Text style={styles.pageTitle}>نیا اکاؤنٹ بنائیں (Sign Up)</Text>
+          <Text style={styles.pageTitle}>Create Account</Text>
         </View>
 
         {errorMsg ? (
@@ -85,16 +75,16 @@ export const SignUpScreen = ({ onNavigateToLogin }) => {
         ) : null}
 
         <View style={styles.formCard}>
-          <Text style={styles.label}>پورا نام (Full Name)</Text>
+          <Text style={styles.label}>Full Name</Text>
           <TextInput
             style={styles.input}
-            placeholder="مثلاً: Muhammad Ali / Teacher"
+            placeholder="e.g. Professor / Student Name"
             placeholderTextColor="#9CA3AF"
             value={name}
             onChangeText={setName}
           />
 
-          <Text style={styles.label}>ای میل (Email Address)</Text>
+          <Text style={styles.label}>Email Address</Text>
           <TextInput
             style={styles.input}
             placeholder="example@gmail.com"
@@ -105,20 +95,20 @@ export const SignUpScreen = ({ onNavigateToLogin }) => {
             onChangeText={setEmail}
           />
 
-          <Text style={styles.label}>پاس ورڈ (Password)</Text>
+          <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="کم از کم 6 ہندسے"
+            placeholder="Minimum 6 characters"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
             value={password}
             onChangeText={setPassword}
           />
 
-          <Text style={styles.label}>پاس ورڈ کی تصدیق (Confirm Password)</Text>
+          <Text style={styles.label}>Confirm Password</Text>
           <TextInput
             style={styles.input}
-            placeholder="دوبارہ پاس ورڈ درج کریں"
+            placeholder="Re-enter password"
             placeholderTextColor="#9CA3AF"
             secureTextEntry
             value={confirmPassword}
@@ -126,16 +116,16 @@ export const SignUpScreen = ({ onNavigateToLogin }) => {
           />
 
           <CustomButton
-            title="اکاؤنٹ بنائیں (Sign Up)"
+            title="Create Account (Sign Up)"
             onPress={handleSignUp}
             loading={loading}
             style={styles.submitBtn}
           />
 
           <View style={styles.loginRedirectRow}>
-            <Text style={styles.redirectText}>پہلے سے اکاؤنٹ موجود ہے؟ </Text>
+            <Text style={styles.redirectText}>Already have an account? </Text>
             <TouchableOpacity onPress={() => onNavigateToLogin()}>
-              <Text style={styles.loginLink}>لاگ ان کریں (Login)</Text>
+              <Text style={styles.loginLink}>Login Here</Text>
             </TouchableOpacity>
           </View>
         </View>

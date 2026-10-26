@@ -23,8 +23,8 @@ export const BoardSelectScreen = ({ user, onSelectBoard, onOpenHistory, onLogout
   return (
     <View style={styles.container}>
       <Header
-        title="تعلیمی بورڈ منتخب کریں"
-        subtitle="Select Educational Board"
+        title="Select Educational Board"
+        subtitle="Choose Examination Board"
         rightLabel="📜 History"
         rightAction={onOpenHistory}
       />
@@ -32,8 +32,8 @@ export const BoardSelectScreen = ({ user, onSelectBoard, onOpenHistory, onLogout
       <View style={styles.content}>
         <View style={styles.welcomeBanner}>
           <View>
-            <Text style={styles.welcomeTitle}>خوش آمدید، {user?.name || 'Teacher / Student'} 👋</Text>
-            <Text style={styles.welcomeSubtitle}>کس تعلیمی بورڈ کے مطابق پیپر تیار کرنا ہے؟</Text>
+            <Text style={styles.welcomeTitle}>Welcome, {user?.name || 'Educator / Student'} 👋</Text>
+            <Text style={styles.welcomeSubtitle}>Select which board pattern you want to generate paper for:</Text>
           </View>
         </View>
 
@@ -41,7 +41,7 @@ export const BoardSelectScreen = ({ user, onSelectBoard, onOpenHistory, onLogout
           <Text style={styles.searchIcon}>🔍</Text>
           <TextInput
             style={styles.searchInput}
-            placeholder="بورڈ تلاش کریں (مثلاً Lahore, Rawalpindi, Federal)..."
+            placeholder="Search Board (e.g. Lahore, Rawalpindi, Federal)..."
             placeholderTextColor="#9CA3AF"
             value={search}
             onChangeText={setSearch}
@@ -53,7 +53,7 @@ export const BoardSelectScreen = ({ user, onSelectBoard, onOpenHistory, onLogout
           ) : null}
         </View>
 
-        <Text style={styles.listHeader}>دستیاب بورڈز (Available Boards - 2026)</Text>
+        <Text style={styles.listHeader}>Available Examination Boards (2026)</Text>
 
         <FlatList
           data={filteredBoards}
@@ -156,13 +156,19 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#EFF6FF',
+    borderWidth: 1,
+    borderColor: '#DBEAFE',
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 12,
   },
   boardIcon: {
     fontSize: 20,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    includeFontPadding: false,
+    lineHeight: 22,
   },
   boardInfo: {
     flex: 1,
@@ -189,5 +195,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.primary,
     fontWeight: 'bold',
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    includeFontPadding: false,
+    lineHeight: 18,
   },
 });

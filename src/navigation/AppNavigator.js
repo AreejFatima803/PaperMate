@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, SafeAreaView, StatusBar, BackHandler } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, SafeAreaView, StatusBar, BackHandler, ActivityIndicator } from 'react-native';
 import { theme } from '../styles/theme';
 import { SignUpScreen } from '../screens/Auth/SignUpScreen';
 import { LoginScreen } from '../screens/Auth/LoginScreen';
 import { BoardSelectScreen } from '../screens/BoardSelectScreen';
 import { ClassSelectScreen } from '../screens/ClassSelectScreen';
-import { MediumSelectScreen } from '../screens/MediumSelectScreen';
 import { SubjectSelectScreen } from '../screens/SubjectSelectScreen';
 import { SyllabusSelectScreen } from '../screens/SyllabusSelectScreen';
 import { PaperPatternScreen } from '../screens/PaperPatternScreen';
@@ -17,7 +16,8 @@ import { AuthService } from '../services/storageService';
 
 export const AppNavigator = () => {
   // Screens: 'SIGNUP' | 'LOGIN' | 'BOARD' | 'CLASS' | 'MEDIUM' | 'SUBJECT' | 'SYLLABUS' | 'PATTERN' | 'GENERATED' | 'EDIT' | 'HISTORY'
-  const [currentScreen, setCurrentScreen] = useState('SIGNUP');
+  const [currentScreen, setCurrentScreen] = useState('BOARD');
+  const [isRestoringAuth, setIsRestoringAuth] = useState(true);
 
   // Auth state
   const [user, setUser] = useState(null);
@@ -34,9 +34,41 @@ export const AppNavigator = () => {
   // Return to previous screen from History
   const [previousScreenBeforeHistory, setPreviousScreenBeforeHistory] = useState('BOARD');
 
+  // Check saved authentication session on launch
+  useEffect(() => {
+    let isMounted = true;
+    const checkAuth = async () => {
+      try {
+        const savedUser = await AuthService.getCurrentUser();
+        if (isMounted) {
+          if (savedUser) {
+            setUser(savedUser);
+            setCurrentScreen('BOARD');
+          } else {
+            const hasUsers = await AuthService.hasAnyUser();
+            setCurrentScreen(hasUsers ? 'LOGIN' : 'SIGNUP');
+          }
+        }
+      } catch (err) {
+        if (isMounted) setCurrentScreen('LOGIN');
+      } finally {
+        if (isMounted) setIsRestoringAuth(false);
+      }
+    };
+    checkAuth();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   // Navigation handlers
   const handleSignUpSuccess = (data) => {
-    if (data) {
+    if (data?.user) {
+      setUser(data.user);
+      setCurrentScreen('BOARD');
+      return;
+    }
+    if (data?.email) {
       setLoginPrefill({ email: data.email, password: data.prefilledPassword || '' });
     }
     setCurrentScreen('LOGIN');
@@ -54,11 +86,6 @@ export const AppNavigator = () => {
 
   const handleSelectClass = (cls) => {
     setSelectedClass(cls);
-    setCurrentScreen('MEDIUM');
-  };
-
-  const handleSelectMedium = (medium) => {
-    setSelectedMedium(medium);
     setCurrentScreen('SUBJECT');
   };
 
@@ -102,11 +129,22 @@ export const AppNavigator = () => {
     setCurrentScreen('BOARD');
   };
 
-  const handleLogout = () => {
-    AuthService.logout();
+  const handleLogout = async () => {
+    try {
+      await AuthService.logout();
+    } catch (e) {}
     setUser(null);
     setCurrentScreen('LOGIN');
   };
+
+  if (isRestoringAuth) {
+    return (
+      <SafeAreaView style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -142,22 +180,13 @@ export const AppNavigator = () => {
           />
         )}
 
-        {currentScreen === 'MEDIUM' && (
-          <MediumSelectScreen
-            selectedBoard={selectedBoard}
-            selectedClass={selectedClass}
-            onSelectMedium={handleSelectMedium}
-            onBack={() => setCurrentScreen('CLASS')}
-          />
-        )}
-
         {currentScreen === 'SUBJECT' && (
           <SubjectSelectScreen
             selectedBoard={selectedBoard}
             selectedClass={selectedClass}
             selectedMedium={selectedMedium}
             onSelectSubject={handleSelectSubject}
-            onBack={() => setCurrentScreen('MEDIUM')}
+            onBack={() => setCurrentScreen('CLASS')}
           />
         )}
 
