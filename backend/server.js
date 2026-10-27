@@ -1,10 +1,5 @@
 /**
  * PaperMate Backend - Node.js + Express + MongoDB (Mongoose)
- * 
- * To run:
- * 1. cd backend
- * 2. npm install express mongoose cors dotenv bcryptjs jsonwebtoken
- * 3. node server.js
  */
 
 const express = require('express');
@@ -30,7 +25,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
 });
-const User = mongoose.model('User', UserSchema);
+const User = mongoose.models.User || mongoose.model('User', UserSchema);
 
 // Exam Paper Schema
 const PaperSchema = new mongoose.Schema({
@@ -48,7 +43,12 @@ const PaperSchema = new mongoose.Schema({
   longSection: Object,
   createdAt: { type: Date, default: Date.now },
 });
-const Paper = mongoose.model('Paper', PaperSchema);
+const Paper = mongoose.models.Paper || mongoose.model('Paper', PaperSchema);
+
+// Test route
+app.get('/', (req, res) => {
+  res.json({ message: 'PaperMate API is running' });
+});
 
 // Auth Routes
 app.post('/api/auth/signup', async (req, res) => {
@@ -105,6 +105,10 @@ app.delete('/api/papers/:id', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`PaperMate MongoDB API running on port ${PORT}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`PaperMate MongoDB API running on port ${PORT}`);
+  });
+}
+
+module.exports = app;
